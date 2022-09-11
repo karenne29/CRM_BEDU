@@ -26,7 +26,6 @@ public class ClientesRunner implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
-        try {
             Cliente cliente = crearCliente("Juan", "juan@metroflog.com", "10", "Cesar Madero");
             Cliente cliente1 = crearCliente("Anna", "juan@metroflog.com", "10", "Cesar Madero");
             Cliente cliente2 = crearCliente("Dennis", "juan@metroflog.com", "10", "Cesar Madero");
@@ -70,10 +69,10 @@ public class ClientesRunner implements CommandLineRunner {
             Venta venta4 = crearVenta(0, productoList, clientesRepository.findById(5L).get(),LocalDateTime.now());
             List<Venta> ventaList = Arrays.asList(venta, venta1, venta2, venta3, venta4);
             ventaRepository.saveAll(ventaList);
-        }catch (Exception e){
-            System.out.println("------ERRORRRRR---------");
-            System.out.println(e.toString());
-        }
+//        }catch (Exception e){
+//            System.out.println("------ERRORRRRR---------");
+//            System.out.println(e.toString());
+//
 
 
     }
