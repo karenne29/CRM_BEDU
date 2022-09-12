@@ -46,15 +46,15 @@ public class ClienteController {
 
     @PutMapping("/edit/{clienteId}")
     public ResponseEntity<String> actualizaCliente(@Valid @PathVariable Long clienteId, @RequestBody ClienteModel cliente){
-        /*if(clienteService.obtenCliente(clienteId).get()!=null){
+        if(clienteService.obtenCliente(clienteId).get()!=null){
             cliente.setId(clienteId);
             clienteService.actualizaCliente(cliente);
             return ResponseEntity.status(201).body("Se actualizo la informacion del cliente");
         }else{
-            return ResponseEntity.status(201).body("El Id que ingresaste no existe");
-        }*/
-        clienteService.actualizaCliente(cliente);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("El Id que ingresaste no existe");
+        }
+//        clienteService.actualizaCliente(cliente);
+//        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 
     }
 

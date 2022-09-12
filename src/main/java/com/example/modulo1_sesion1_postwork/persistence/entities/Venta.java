@@ -18,7 +18,7 @@ public class Venta {
 
     private float monto;
 
-    @OneToMany
+    @ManyToMany
     private List<Producto> productos;
 
     @ManyToOne

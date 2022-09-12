@@ -25,7 +25,7 @@ public class VentaController {
         Optional<VentaModel> ventaDb = ventaService.obtenVenta(ventaId);
 
         if (ventaDb.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "El jventa especificado no existe.");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "El venta especificado no existe.");
         }
 
         return ResponseEntity.ok(ventaDb.get());
@@ -40,24 +40,24 @@ public class VentaController {
     @PostMapping("/addVenta")
     public ResponseEntity<String> creaVenta(@Valid @RequestBody VentaModel ventaModel){
         ventaService.guardaVenta(ventaModel);
-        return ResponseEntity.status(201).body("Se agrego el jventa");
+        return ResponseEntity.status(201).body("Se agrego el venta");
     }
 
-    @PutMapping("/edit/{jventaId}")
+    @PutMapping("/edit/{ventaId}")
     public ResponseEntity<String> actualizaVenta(@Valid @PathVariable Long ventaId, @RequestBody  VentaModel ventaModel){
         if(ventaService.obtenVenta(ventaId).get()!=null){
             ventaModel.setVentaId(ventaId);
             ventaService.actualizaVenta(ventaModel);
-            return ResponseEntity.status(201).body("Se actualizo la informacion del jventa");
+            return ResponseEntity.status(201).body("Se actualizo la informacion del venta");
         }else{
             return ResponseEntity.status(201).body("El Id que ingresaste no existe");
         }
 
     }
 
-    @DeleteMapping("/delete/{jventaId}")
-    public ResponseEntity<String> eliminaVenta(@Valid @PathVariable Long jventaId){
-        ventaService.eliminaVenta(jventaId);
-        return ResponseEntity.status(201).body("Se elimino correctamente el jventa");
+    @DeleteMapping("/delete/{ventaId}")
+    public ResponseEntity<String> eliminaVenta(@Valid @PathVariable Long ventaId){
+        ventaService.eliminaVenta(ventaId);
+        return ResponseEntity.status(201).body("Se elimino correctamente el venta");
     }
 }
