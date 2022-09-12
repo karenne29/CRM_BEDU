@@ -12,7 +12,7 @@
     <artifactId>modulo1_sesion1_PostWork</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>modulo1_sesion1_PostWork</name>
-    <description>modulo1_sesion1_PostWork</description>
+    <description>CRM para el proyecto del M3 de Java Backend</description>
     <properties>
         <java.version>11</java.version>
         <org.mapstruct.version>1.5.2.Final</org.mapstruct.version>
@@ -114,10 +114,6 @@
                         </goals>
                         <configuration>
                             <backend>html</backend>
-                            <sourceDocumentName>index.adoc</sourceDocumentName>
-                            <attributes>
-                                <snippets>${project.build.directory}/generated-snippets</snippets>
-                            </attributes>
                             <sourceDirectory>src/docs/asciidocs</sourceDirectory>
                             <outputDirectory>target/generated-docs</outputDirectory>
                         </configuration>
@@ -127,9 +123,8 @@
                     <dependency>
                         <groupId>org.springframework.restdocs</groupId>
                         <artifactId>spring-restdocs-asciidoctor</artifactId>
-                        <version>2.0.3.RELEASE</version>
+                        <version>1.5.8</version>
                     </dependency>
-
                 </dependencies>
             </plugin>
 
