@@ -13,8 +13,8 @@ import java.util.List;
 @NoArgsConstructor
 public class Venta {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long ventaId;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
 
     private float monto;
 

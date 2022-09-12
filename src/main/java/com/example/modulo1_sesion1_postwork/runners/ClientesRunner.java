@@ -62,13 +62,15 @@ public class ClientesRunner implements CommandLineRunner {
             List<Visita> visitaList = Arrays.asList(visita,visita1,visita2,visita3,visita4);
             visitaRepository.saveAll(visitaList);
 
-            Venta venta = crearVenta(0, productoList, clientesRepository.findById(1L).get(),LocalDateTime.now());
-            Venta venta1 = crearVenta(0, productoList, clientesRepository.findById(2L).get(),LocalDateTime.now());
-            Venta venta2 = crearVenta(0, productoList, clientesRepository.findById(3L).get(),LocalDateTime.now());
-            Venta venta3 = crearVenta(0, productoList, clientesRepository.findById(4L).get(),LocalDateTime.now());
-            Venta venta4 = crearVenta(0, productoList, clientesRepository.findById(5L).get(),LocalDateTime.now());
-            List<Venta> ventaList = Arrays.asList(venta, venta1, venta2, venta3, venta4);
-            ventaRepository.saveAll(ventaList);
+            Venta venta = crearVenta(10, productoList, clientesRepository.findById(1L).get(),LocalDateTime.now());
+//            Venta venta1 = crearVenta(10, productoList, clientesRepository.findById(2L).get(),LocalDateTime.now());
+//            Venta venta2 = crearVenta(10, productoList, clientesRepository.findById(3L).get(),LocalDateTime.now());
+//            Venta venta3 = crearVenta(10, productoList, clientesRepository.findById(4L).get(),LocalDateTime.now());
+//            Venta venta4 = crearVenta(10, productoList, clientesRepository.findById(5L).get(),LocalDateTime.now());
+//            List<Venta> ventaList = Arrays.asList(venta, venta1, venta2, venta3, venta4);
+//            ventaRepository.saveAll(ventaList);
+            ventaRepository.save(venta);
+//        ventaRepository.save(venta1);
 //        }catch (Exception e){
 //            System.out.println("------ERRORRRRR---------");
 //            System.out.println(e.toString());
@@ -126,4 +128,5 @@ public class ClientesRunner implements CommandLineRunner {
         visita.setVendedor(vendedor);
         return visita;
     }
+
 }

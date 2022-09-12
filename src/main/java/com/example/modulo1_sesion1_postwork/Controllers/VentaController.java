@@ -21,43 +21,43 @@ public class VentaController {
     private final VentaService ventaService;
 
     @GetMapping("/{ventaId}")
-    public ResponseEntity<VentaModel> getCliente(@PathVariable Long ventaId){
+    public ResponseEntity<VentaModel> getVenta(@PathVariable Long ventaId){
         Optional<VentaModel> ventaDb = ventaService.obtenVenta(ventaId);
 
         if (ventaDb.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "El cliente especificado no existe.");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "El jventa especificado no existe.");
         }
 
         return ResponseEntity.ok(ventaDb.get());
     }
 
-    @GetMapping("/getAllClientes")
-    public ResponseEntity <List<VentaModel>> getClientes(){
+    @GetMapping("/getAllVentas")
+    public ResponseEntity <List<VentaModel>> getVentas(){
 
         return ResponseEntity.ok(ventaService.obtenVentas());
     }
 
-    @PostMapping("/addCliente")
-    public ResponseEntity<String> creaCliente(@Valid @RequestBody VentaModel ventaModel){
+    @PostMapping("/addVenta")
+    public ResponseEntity<String> creaVenta(@Valid @RequestBody VentaModel ventaModel){
         ventaService.guardaVenta(ventaModel);
-        return ResponseEntity.status(201).body("Se agrego el cliente");
+        return ResponseEntity.status(201).body("Se agrego el jventa");
     }
 
-    @PutMapping("/edit/{clienteId}")
-    public ResponseEntity<String> actualizaCliente(@Valid @PathVariable Long ventaId, @RequestBody  VentaModel ventaModel){
+    @PutMapping("/edit/{jventaId}")
+    public ResponseEntity<String> actualizaVenta(@Valid @PathVariable Long ventaId, @RequestBody  VentaModel ventaModel){
         if(ventaService.obtenVenta(ventaId).get()!=null){
             ventaModel.setVentaId(ventaId);
             ventaService.actualizaVenta(ventaModel);
-            return ResponseEntity.status(201).body("Se actualizo la informacion del cliente");
+            return ResponseEntity.status(201).body("Se actualizo la informacion del jventa");
         }else{
             return ResponseEntity.status(201).body("El Id que ingresaste no existe");
         }
 
     }
 
-    @DeleteMapping("/delete/{clienteId}")
-    public ResponseEntity<String> eliminaCliente(@Valid @PathVariable Long clienteId){
-        ventaService.eliminaVenta(clienteId);
-        return ResponseEntity.status(201).body("Se elimino correctamente el cliente");
+    @DeleteMapping("/delete/{jventaId}")
+    public ResponseEntity<String> eliminaVenta(@Valid @PathVariable Long jventaId){
+        ventaService.eliminaVenta(jventaId);
+        return ResponseEntity.status(201).body("Se elimino correctamente el jventa");
     }
 }

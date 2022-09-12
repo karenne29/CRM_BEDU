@@ -21,44 +21,44 @@ public class ProductoController {
 
     private final ProductoService productoService;
 
-    @GetMapping("/{etapaId}")
-    public ResponseEntity<ProductoModel> getCliente(@PathVariable Long etapaId){
-        Optional<ProductoModel> etapaDb = productoService.obtenProducto(etapaId);
+    @GetMapping("/{productoId}")
+    public ResponseEntity<ProductoModel> getProducto(@PathVariable Long productoId){
+        Optional<ProductoModel> productoDb = productoService.obtenProducto(productoId);
 
-        if (etapaDb.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "El cliente especificado no existe.");
+        if (productoDb.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "El producto especificado no existe.");
         }
 
-        return ResponseEntity.ok(etapaDb.get());
+        return ResponseEntity.ok(productoDb.get());
     }
 
-    @GetMapping("/getAllClientes")
-    public ResponseEntity <List<ProductoModel>> getClientes(){
+    @GetMapping("/getAllProductos")
+    public ResponseEntity <List<ProductoModel>> getProductos(){
 
         return ResponseEntity.ok(productoService.obtenProductos());
     }
 
-    @PostMapping("/addCliente")
-    public ResponseEntity<String> creaCliente(@Valid @RequestBody ProductoModel etapaModel){
-        productoService.guardaProducto(etapaModel);
-        return ResponseEntity.status(201).body("Se agrego el cliente");
+    @PostMapping("/addProducto")
+    public ResponseEntity<String> creaProducto(@Valid @RequestBody ProductoModel productoModel){
+        productoService.guardaProducto(productoModel);
+        return ResponseEntity.status(201).body("Se agrego el producto");
     }
 
-    @PutMapping("/edit/{clienteId}")
-    public ResponseEntity<String> actualizaCliente(@Valid @PathVariable Long etapaId, @RequestBody  ProductoModel etapaModel){
-        if(productoService.obtenProducto(etapaId).get()!=null){
-            etapaModel.setId(etapaId);
-            productoService.actualizaProducto(etapaModel);
-            return ResponseEntity.status(201).body("Se actualizo la informacion del cliente");
+    @PutMapping("/edit/{productoId}")
+    public ResponseEntity<String> actualizaProducto(@Valid @PathVariable Long productoId, @RequestBody  ProductoModel productoModel){
+        if(productoService.obtenProducto(productoId).get()!=null){
+            productoModel.setId(productoId);
+            productoService.actualizaProducto(productoModel);
+            return ResponseEntity.status(201).body("Se actualizo la informacion del producto");
         }else{
             return ResponseEntity.status(201).body("El Id que ingresaste no existe");
         }
 
     }
 
-    @DeleteMapping("/delete/{clienteId}")
-    public ResponseEntity<String> eliminaCliente(@Valid @PathVariable Long clienteId){
-        productoService.eliminaProducto(clienteId);
-        return ResponseEntity.status(201).body("Se elimino correctamente el cliente");
+    @DeleteMapping("/delete/{productoId}")
+    public ResponseEntity<String> eliminaProducto(@Valid @PathVariable Long productoId){
+        productoService.eliminaProducto(productoId);
+        return ResponseEntity.status(201).body("Se elimino correctamente el producto");
     }
 }

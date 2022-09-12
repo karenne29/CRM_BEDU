@@ -1,9 +1,7 @@
 package com.example.modulo1_sesion1_postwork.services;
 
-import com.example.modulo1_sesion1_postwork.Controllers.Mappers.ProductoMapper;
-import com.example.modulo1_sesion1_postwork.Controllers.Mappers.VentanaMapper;
+import com.example.modulo1_sesion1_postwork.Controllers.Mappers.VentaMapper;
 import com.example.modulo1_sesion1_postwork.model.VentaModel;
-import com.example.modulo1_sesion1_postwork.persistence.ProductoRepository;
 import com.example.modulo1_sesion1_postwork.persistence.VentaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,7 +15,7 @@ import java.util.stream.Collectors;
 public class VentaService {
 
     private final VentaRepository repository;
-    private final VentanaMapper mapper;
+    private final VentaMapper mapper;
 
     public VentaModel guardaVenta(VentaModel etapaModel) {
         return mapper.ventaToVentaModel(
