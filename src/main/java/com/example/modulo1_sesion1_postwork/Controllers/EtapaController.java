@@ -22,7 +22,7 @@ public class EtapaController {
     private final EtapaService etapaService;
 
     @GetMapping("/{etapaId}")
-    public ResponseEntity<EtapaModel> getCliente(@PathVariable Long etapaId){
+    public ResponseEntity<EtapaModel> getEtapa(@PathVariable Long etapaId){
         Optional<EtapaModel> etapaDb = etapaService.obtenEtapa(etapaId);
 
         if (etapaDb.isEmpty()) {
@@ -32,20 +32,20 @@ public class EtapaController {
         return ResponseEntity.ok(etapaDb.get());
     }
 
-    @GetMapping("/getAllClientes")
-    public ResponseEntity <List<EtapaModel>> getClientes(){
+    @GetMapping("/getAllEtapas")
+    public ResponseEntity <List<EtapaModel>> getEtapas(){
 
         return ResponseEntity.ok(etapaService.obtenEtapas());
     }
 
-    @PostMapping("/addCliente")
-    public ResponseEntity<String> creaCliente(@Valid @RequestBody EtapaModel etapaModel){
+    @PostMapping("/addEtapa")
+    public ResponseEntity<String> creaEtapa(@Valid @RequestBody EtapaModel etapaModel){
         etapaService.guardaEtapa(etapaModel);
         return ResponseEntity.status(201).body("Se agrego el cliente");
     }
 
-    @PutMapping("/edit/{clienteId}")
-    public ResponseEntity<String> actualizaCliente(@Valid @PathVariable Long etapaId, @RequestBody  EtapaModel etapaModel){
+    @PutMapping("/edit/{etapaId}")
+    public ResponseEntity<String> actualizaEtapa(@Valid @PathVariable Long etapaId, @RequestBody  EtapaModel etapaModel){
         if(etapaService.obtenEtapa(etapaId).get()!=null){
             etapaModel.setEtapaId(etapaId);
             etapaService.actualizaEtapa(etapaModel);
@@ -56,9 +56,9 @@ public class EtapaController {
 
     }
 
-    @DeleteMapping("/delete/{clienteId}")
-    public ResponseEntity<String> eliminaCliente(@Valid @PathVariable Long clienteId){
-        etapaService.eliminaEtapa(clienteId);
+    @DeleteMapping("/delete/{etapaId}")
+    public ResponseEntity<String> eliminaEtapa(@Valid @PathVariable Long etapaId){
+        etapaService.eliminaEtapa(etapaId);
         return ResponseEntity.status(201).body("Se elimino correctamente el cliente");
     }
 }
