@@ -44,7 +44,7 @@ public class VentaController {
     }
 
     @PutMapping("/edit/{ventaId}")
-    public ResponseEntity<String> actualizaVenta(@Valid @PathVariable Long ventaId, @RequestBody  VentaModel ventaModel){
+    public ResponseEntity<String> actualizaVenta(@PathVariable Long ventaId,@Valid @RequestBody  VentaModel ventaModel){
         if(ventaService.obtenVenta(ventaId).get()!=null){
             ventaModel.setVentaId(ventaId);
             ventaService.actualizaVenta(ventaModel);
@@ -56,7 +56,7 @@ public class VentaController {
     }
 
     @DeleteMapping("/delete/{ventaId}")
-    public ResponseEntity<String> eliminaVenta(@Valid @PathVariable Long ventaId){
+    public ResponseEntity<String> eliminaVenta(@PathVariable Long ventaId){
         ventaService.eliminaVenta(ventaId);
         return ResponseEntity.status(201).body("Se elimino correctamente el venta");
     }

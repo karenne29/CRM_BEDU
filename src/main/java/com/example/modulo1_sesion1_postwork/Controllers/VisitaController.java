@@ -46,7 +46,7 @@ public class VisitaController {
     }
 
     @PutMapping("/edit/{clienteId}")
-    public ResponseEntity<String> actualizaVisita(@Valid @PathVariable Long visitaId, @RequestBody  VisitaModel visitaModel){
+    public ResponseEntity<String> actualizaVisita(@PathVariable Long visitaId,@Valid @RequestBody  VisitaModel visitaModel){
         if(visitaService.obtenVisita(visitaId).get()!=null){
             visitaModel.setId(visitaId);
             visitaService.actualizaVisita(visitaModel);
@@ -58,7 +58,7 @@ public class VisitaController {
     }
 
     @DeleteMapping("/delete/{clienteId}")
-    public ResponseEntity<String> eliminaVisita(@Valid @PathVariable Long clienteId){
+    public ResponseEntity<String> eliminaVisita(@PathVariable Long clienteId){
         visitaService.eliminaVisita(clienteId);
         return ResponseEntity.status(201).body("Se elimino correctamente el cliente");
     }

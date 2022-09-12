@@ -32,7 +32,7 @@ public class RespuestaErrorBuilder {
     }
 
     public RespuestaErrorBuilder errores(Map<String, String> error) {
-        this.errores = errores;
+        this.errores = error;
         return this;
     }
 

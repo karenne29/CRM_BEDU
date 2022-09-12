@@ -45,7 +45,7 @@ public class ProductoController {
     }
 
     @PutMapping("/edit/{productoId}")
-    public ResponseEntity<String> actualizaProducto(@Valid @PathVariable Long productoId, @RequestBody  ProductoModel productoModel){
+    public ResponseEntity<String> actualizaProducto( @PathVariable Long productoId,@Valid @RequestBody  ProductoModel productoModel){
         if(productoService.obtenProducto(productoId).get()!=null){
             productoModel.setId(productoId);
             productoService.actualizaProducto(productoModel);
@@ -57,7 +57,7 @@ public class ProductoController {
     }
 
     @DeleteMapping("/delete/{productoId}")
-    public ResponseEntity<String> eliminaProducto(@Valid @PathVariable Long productoId){
+    public ResponseEntity<String> eliminaProducto(@PathVariable Long productoId){
         productoService.eliminaProducto(productoId);
         return ResponseEntity.status(201).body("Se elimino correctamente el producto");
     }

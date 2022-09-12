@@ -45,21 +45,22 @@ public class ClienteController {
     }
 
     @PutMapping("/edit/{clienteId}")
-    public ResponseEntity<String> actualizaCliente(@Valid @PathVariable Long clienteId, @RequestBody ClienteModel cliente){
-        if(clienteService.obtenCliente(clienteId).get()!=null){
-            cliente.setId(clienteId);
-            clienteService.actualizaCliente(cliente);
-            return ResponseEntity.status(201).body("Se actualizo la informacion del cliente");
-        }else{
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("El Id que ingresaste no existe");
-        }
-//        clienteService.actualizaCliente(cliente);
-//        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    public ResponseEntity<String> actualizaCliente( @PathVariable Long clienteId,@Valid @RequestBody ClienteModel cliente){
+//        if(clienteService.obtenCliente(clienteId).get()!=null){
+//            cliente.setId(clienteId);
+//            clienteService.actualizaCliente(cliente);
+//            return ResponseEntity.status(201).body("Se actualizo la informacion del cliente");
+//        }else{
+////            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("El Id que ingresaste no existe");
+//            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "El Id que ingresaste no existe");
+//        }
+        clienteService.actualizaCliente(cliente);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 
     }
 
     @DeleteMapping("/delete/{clienteId}")
-    public ResponseEntity<Void> eliminaCliente(@Valid @PathVariable Long clienteId){
+    public ResponseEntity<Void> eliminaCliente(@PathVariable Long clienteId){
         clienteService.eliminaCliente(clienteId);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }

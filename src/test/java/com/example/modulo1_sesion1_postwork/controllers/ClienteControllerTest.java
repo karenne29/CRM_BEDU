@@ -1,35 +1,53 @@
 package com.example.modulo1_sesion1_postwork.controllers;
 
+import static org.hamcrest.Matchers.is;
+
+import static org.mockito.ArgumentMatchers.anyLong;
+
+import static org.mockito.BDDMockito.given;
+
+
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.delete;
+
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
+
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
+
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.put;
+import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.*;
+
+import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
+
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+
+import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
+
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+
+import java.util.Optional;
 
 import com.example.modulo1_sesion1_postwork.Controllers.ClienteController;
 import com.example.modulo1_sesion1_postwork.model.ClienteModel;
 import com.example.modulo1_sesion1_postwork.services.ClienteService;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
-import static org.hamcrest.Matchers.is;
-import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.BDDMockito.given;
-import static org.springframework.http.RequestEntity.post;
-import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
-import static org.springframework.restdocs.headers.HeaderDocumentation.responseHeaders;
-import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
-import static org.springframework.restdocs.payload.PayloadDocumentation.*;
-import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
-import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
 
 @AutoConfigureRestDocs
 @WebMvcTest(ClienteController.class)
@@ -53,6 +71,11 @@ class ClienteControllerTest {
                 .andExpect(jsonPath("$.correoContacto", is("cliente@contacto.com")))
                 .andExpect(jsonPath("$.nombre", is("Nombre")))
 
+                /*.andDo(document("cliente/get-cliente",
+                        pathParameters(
+                                parameterWithName("clienteId").description("Identificador del cliente")
+                        )));*/
+
                 .andDo(document("cliente/get-cliente",
                         pathParameters(
                                 parameterWithName("clienteId").description("Identificador del cliente")
@@ -66,7 +89,7 @@ class ClienteControllerTest {
                         )));
     }
 
-    @Test
+   /* @Test
     void getClientes() throws Exception {
 
         List<ClienteModel> clientes = Arrays.asList(
@@ -88,49 +111,74 @@ class ClienteControllerTest {
                 .andExpect(jsonPath("$[2].nombre", is("Nombre 3")))
 
                 .andDo(document("cliente/get-clientes",
+                        pathParameters(
+                                parameterWithName("id").description("Identificador del cliente"),
+                                parameterWithName("nombre").description("Nombre del cliente"),
+                                parameterWithName("correoContacto").description("Correo de contacto del cliente"),
+                                parameterWithName("numeroEmpleados").description("Número de trabajadores del cliente"),
+                                parameterWithName("direccion").description()
+                        ),
                         responseFields(
-                                fieldWithPath("[].id").description("identificador del cliente"),
-                                fieldWithPath("[].nombre").description("nombre del cliente"),
-                                fieldWithPath("[].correoContacto").description("correo de contacto del cliente"),
-                                fieldWithPath("[].numeroEmpleados").description("número de trabajadores del cliente"),
-                                fieldWithPath("[].direccion").description("domicilio del cliente")
+                                fieldWithPath("id").description("Identificador del cliente"),
+                                fieldWithPath("nombre").description("Nombre del cliente"),
+                                fieldWithPath("correoContacto").description("Correo de contacto del cliente"),
+                                fieldWithPath("numeroEmpleados").description("Número de trabajadores del cliente"),
+                                fieldWithPath("direccion").description("Domicilio del cliente")
                         )));
-    }
+    }*/
 
     @Test
     void creaCliente() throws Exception {
         ClienteModel clienteParametro = ClienteModel.builder().nombre("Nombre").direccion("Direccion").numeroEmpleados(10).correoContacto("contacto@cliente.com").build();
         ClienteModel clienteRespuesta = ClienteModel.builder().id(1L).nombre("Nombre").direccion("Direccion").numeroEmpleados(10).correoContacto("contacto@cliente.com").build();
+
         given(clienteService.guardaCliente(clienteParametro)).willReturn(clienteRespuesta);
-        mockMvc.perform(RestDocumentationRequestBuilders.post("/cliente/addCliente")
+
+        mockMvc.perform(post("/cliente/addCliente")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(clienteParametro)))
                 .andExpect(status().isCreated())
 
                 .andDo(document("cliente/crea-cliente",
-                        requestFields(
-                                fieldWithPath("id").description("El identificador del nuevo cliente"),
-                                fieldWithPath("nombre").description("El nombre del cliente"),
-                                fieldWithPath("direccion").description("La dirección del cliente"),
-                                fieldWithPath("correoContacto").description("La dirección de correo electrónico de contacto"),
-                                fieldWithPath("numeroEmpleados").description("El número de personas que trabajan en las oficinas e cliente")
-                        ),
-                        responseHeaders(
-                                headerWithName("Location").description("La ubicación del recurso (su identificador generado")
-                        ))
-                );
+                        pathParameters(
+                                parameterWithName("nombre").description("Nombre del cliente"),
+                                parameterWithName("direccion").description("Direccion del cliente"),
+                                parameterWithName("numeroEmpleados").description("Numero de empleados del cliente"),
+                                parameterWithName("correoContacto").description("Correo de contacto del cliente")
+                        )));
     }
 
-    @Test
+    /*@Test
     void actualizaCliente() throws Exception {
 
         ClienteModel clienteParametro = ClienteModel.builder().id(1L).nombre("Nombre").direccion("Direccion").numeroEmpleados(10).correoContacto("contacto@cliente.com").build();
 
-        mockMvc.perform(put("/cliente/edit/{clienteId}", 1)
+        mockMvc.perform(put("/cliente/edit/{clienteId}")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(clienteParametro)))
                 .andExpect(status().isNoContent())
 
+                .andDo(document("cliente/actualiza-cliente",
+                        pathParameters(
+                                parameterWithName("clienteId").description("Identificador del cliente")
+                        )));
+    }*/
+
+    @Test
+
+    void actualizaCliente() throws Exception {
+
+        ClienteModel clienteParametro = ClienteModel.builder()
+                .id(1L)
+                .nombre("Nombre")
+                .direccion("Direccion")
+                .numeroEmpleados(10)
+                .correoContacto("contacto@cliente.com")
+                .build();
+        mockMvc.perform(put("/cliente/edit/{clienteId}", 1)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(new ObjectMapper().writeValueAsString(clienteParametro)))
+                .andExpect(status().isNoContent())
                 .andDo(document("cliente/put-cliente",
                         pathParameters(
                                 parameterWithName("clienteId").description("Identificador del cliente")
@@ -138,11 +186,12 @@ class ClienteControllerTest {
                         requestFields(
                                 fieldWithPath("id").description("El identificador del nuevo cliente"),
                                 fieldWithPath("nombre").description("El nombre del cliente"),
-                                fieldWithPath("direccion").description("La dirección del cliente"),
                                 fieldWithPath("correoContacto").description("La dirección de correo electrónico de contacto"),
-                                fieldWithPath("numeroEmpleados").description("El número de personas que trabajan en las oficinas e cliente")
+                                fieldWithPath("numeroEmpleados").description("El número de personas que trabajan en las oficinas e cliente"),
+                                fieldWithPath("direccion").description("La dirección del cliente")
                         )
                 ));
+
     }
 
     @Test
