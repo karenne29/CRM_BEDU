@@ -8,12 +8,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.crypto.KeyAgreementSpi;
 import javax.validation.Valid;
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/clientes")
+@RequestMapping("/cliente")
 @RequiredArgsConstructor
 public class ClienteController {
 
@@ -37,27 +39,29 @@ public class ClienteController {
     }
 
     @PostMapping("/addCliente")
-    public ResponseEntity<String> creaCliente(@Valid @RequestBody ClienteModel cliente){
-        clienteService.guardaCliente(cliente);
-        return ResponseEntity.status(201).body("Se agrego el cliente");
+    public ResponseEntity<Void> creaCliente(@Valid @RequestBody ClienteModel cliente){
+        ClienteModel clienteNuevo = clienteService.guardaCliente(cliente);
+        return ResponseEntity.created(URI.create(String.valueOf(clienteNuevo.getId()))).build();
     }
 
     @PutMapping("/edit/{clienteId}")
     public ResponseEntity<String> actualizaCliente(@Valid @PathVariable Long clienteId, @RequestBody ClienteModel cliente){
-        if(clienteService.obtenCliente(clienteId).get()!=null){
+        /*if(clienteService.obtenCliente(clienteId).get()!=null){
             cliente.setId(clienteId);
             clienteService.actualizaCliente(cliente);
             return ResponseEntity.status(201).body("Se actualizo la informacion del cliente");
         }else{
             return ResponseEntity.status(201).body("El Id que ingresaste no existe");
-        }
+        }*/
+        clienteService.actualizaCliente(cliente);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 
     }
 
     @DeleteMapping("/delete/{clienteId}")
-    public ResponseEntity<String> eliminaCliente(@Valid @PathVariable Long clienteId){
+    public ResponseEntity<Void> eliminaCliente(@Valid @PathVariable Long clienteId){
         clienteService.eliminaCliente(clienteId);
-        return ResponseEntity.status(201).body("Se elimino correctamente el cliente");
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
 }
