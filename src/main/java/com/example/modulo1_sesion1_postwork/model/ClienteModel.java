@@ -21,7 +21,7 @@ public class ClienteModel {
 
     @Min(value = 1, message = "Los clientes con menos de 10 empleados no son válidos")
     @Max(value = 10000, message = "Los clientes con más de 10000 empleados no son válidos")
-    private String numeroEmpleados;
+    private int numeroEmpleados;
 
     @NotBlank(message = "Se debe proporcionar una dirección")
     private String direccion;
